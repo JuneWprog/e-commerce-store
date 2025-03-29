@@ -2,24 +2,29 @@ import { useEffect } from "react";
 import CategoryItem from "../components/CategoryItem";
 import { useProductStore } from "../stores/useProductStore";
 import FeaturedProducts from "../components/FeaturedProducts";
+import {useCategoryStore} from "../stores/useCategoryStore";
 
-const categories = [
-	{ href: "/jeans", name: "Jeans", imageUrl: "/jeans.jpg" },
-	{ href: "/t-shirts", name: "T-shirts", imageUrl: "/tshirts.jpg" },
-	{ href: "/shoes", name: "Shoes", imageUrl: "/shoes.jpg" },
-	{ href: "/glasses", name: "Glasses", imageUrl: "/glasses.png" },
-	{ href: "/jackets", name: "Jackets", imageUrl: "/jackets.jpg" },
-	{ href: "/suits", name: "Suits", imageUrl: "/suits.jpg" },
-	{ href: "/bags", name: "Bags", imageUrl: "/bags.jpg" },
-	{ href: "/dress", name: "Dress", imageUrl: "/dress.webp" },
-];
+// const categories = [
+// 	{ href: "/jeans", name: "Jeans", imageUrl: "/jeans.jpg" },
+// 	{ href: "/t-shirts", name: "T-shirts", imageUrl: "/tshirts.jpg" },
+// 	{ href: "/shoes", name: "Shoes", imageUrl: "/shoes.jpg" },
+// 	{ href: "/glasses", name: "Glasses", imageUrl: "/glasses.png" },
+// 	{ href: "/jackets", name: "Jackets", imageUrl: "/jackets.jpg" },
+// 	{ href: "/suits", name: "Suits", imageUrl: "/suits.jpg" },
+// 	{ href: "/bags", name: "Bags", imageUrl: "/bags.jpg" },
+// 	{ href: "/dress", name: "Dress", imageUrl: "/dress.webp" },
+// ];
 
 const HomePage = () => {
 	const { fetchFeaturedProducts, products, isLoading } = useProductStore();
+	const { fetchAllCategories, getCategoryFormatStrings } = useCategoryStore();
 
 	useEffect(() => {
 		fetchFeaturedProducts();
-	}, [fetchFeaturedProducts]);
+		fetchAllCategories();
+	}, [fetchFeaturedProducts, fetchAllCategories]);
+
+	const categories = getCategoryFormatStrings();
 
 	return (
 		<div className='relative min-h-screen text-white overflow-hidden'>

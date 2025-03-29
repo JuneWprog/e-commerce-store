@@ -2,8 +2,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { PlusCircle, Upload, Loader } from "lucide-react";
 import { useProductStore } from "../stores/useProductStore";
+import { useCategoryStore } from "../stores/useCategoryStore";
+import { useEffect } from "react";
 
-const categories = ["jeans", "t-shirts", "shoes", "glasses", "jackets", "suits", "bags", "dress"];
+
 
 const CreateProductForm = () => {
 	const [newProduct, setNewProduct] = useState({
@@ -13,8 +15,14 @@ const CreateProductForm = () => {
 		category: "",
 		image: "",
 	});
-
+	const { getCategoryNames, fetchAllCategories } = useCategoryStore();
 	const { createProduct, loading } = useProductStore();
+
+
+	useEffect(() => {
+		fetchAllCategories();
+	}, [fetchAllCategories]);
+	const categories = getCategoryNames();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -38,7 +46,7 @@ const CreateProductForm = () => {
 			reader.readAsDataURL(file); // base64
 		}
 	};
-
+	// const categoriess = ["jeans", "t-shirts", "shoes", "glasses", "jackets", "suits", "bags", "dress"];
 	return (
 		<motion.div
 			className='bg-gray-800 shadow-lg rounded-lg p-8 mb-8 max-w-xl mx-auto'

@@ -6,9 +6,11 @@ import AnalyticsTab from "../components/AnalyticsTab";
 import CreateProductForm from "../components/CreateProductForm";
 import ProductsList from "../components/ProductsList";
 import { useProductStore } from "../stores/useProductStore";
+import CreateCategoryForm from "../components/CreateCategoryForm";
 
 const tabs = [
 	{ id: "create", label: "Create Product", icon: PlusCircle },
+	{ id: "category", label: "Create Category", icon: PlusCircle },
 	{ id: "products", label: "Products", icon: ShoppingBasket },
 	{ id: "analytics", label: "Analytics", icon: BarChart },
 ];
@@ -16,6 +18,7 @@ const tabs = [
 const AdminPage = () => {
 	const [activeTab, setActiveTab] = useState("create");
 	const { fetchAllProducts } = useProductStore();
+	
 
 	useEffect(() => {
 		fetchAllProducts();
@@ -52,6 +55,7 @@ const AdminPage = () => {
 				{activeTab === "create" && <CreateProductForm />}
 				{activeTab === "products" && <ProductsList />}
 				{activeTab === "analytics" && <AnalyticsTab />}
+				{activeTab === "category" && <CreateCategoryForm />}
 			</div>
 		</div>
 	);

@@ -5,8 +5,10 @@ const categorySchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      unique:[true, "Category name must be unique"],
+      trim: true,
     },
-    description: {
+    link: {
       type: String,
       required: true,
     },
@@ -17,3 +19,5 @@ const categorySchema = new mongoose.Schema(
   },
   { timestamps: true, versionKey: false }
 );
+export const Category = mongoose.model("Category", categorySchema);
+export default Category;
