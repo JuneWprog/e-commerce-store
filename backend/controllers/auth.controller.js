@@ -78,6 +78,10 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
 	try {
 		const { email, password } = req.body;
+		if (!email || !password) {
+			return res.status(400).json({ error: "Email and password are required." });
+		}
+		
 		//if user exists, check if the password is correct-> generate tokens-> set cookies-> send response
 		//if user does not exist, send error response
 		const user = await User.findOne({ email });
@@ -101,7 +105,6 @@ export const login = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
-
 export const logout = async (req, res) => {
 	try {
 		//remove the refresh token from redis using the user id as the key
