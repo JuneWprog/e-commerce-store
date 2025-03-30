@@ -66,7 +66,7 @@ const CreateCategoryForm = () => {
 
                 <div>
                     <label htmlFor='link' className='block text-sm font-medium text-gray-300'>
-                        Description
+                        Link
                     </label>
                     <textarea
                         id='link'
