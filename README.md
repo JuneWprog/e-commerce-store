@@ -1,7 +1,10 @@
 ﻿#   MERN e-commerce-store
  
 ## Payment
-https://github.com/user-attachments/assets/195a2d3e-44f6-48a5-b6b5-d480cf0cf179
+<video width="320" height="240" autoplay>
+  <source src="[movie.mp4](https://github.com/user-attachments/assets/195a2d3e-44f6-48a5-b6b5-d480cf0cf179
+)" type="video/mp4">
+</video>
 
 ## Admininstration
 
