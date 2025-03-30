@@ -7,16 +7,22 @@ import { useEffect } from "react";
 
 
 
-const CreateProductForm = () => {
-	const [newProduct, setNewProduct] = useState({
+const CreateProductForm = ({ isEditing, product, setIsEditing, setProduct}) => {
+
+	if(product){
+		console.log("product", product.image);
+	}
+	const existingProduct = product || {
 		name: "",
 		description: "",
 		price: "",
 		category: "",
 		image: "",
-	});
+	}
+	
+	const [newProduct, setNewProduct] = useState(existingProduct);
 	const { getCategoryNames, fetchAllCategories } = useCategoryStore();
-	const { createProduct, loading } = useProductStore();
+	const { createProduct, loading, updateProduct} = useProductStore();
 
 
 	useEffect(() => {
@@ -26,6 +32,19 @@ const CreateProductForm = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		//update product if isEditing is true
+		if (isEditing) {
+			try {
+				await updateProduct(product._id, newProduct);
+			} catch {
+				console.log("error updating a product");
+			}
+			setNewProduct({ name: "", description: "", price: "", category: "", image: "" });
+			setIsEditing(false);
+			setProduct(null);
+			return;
+		}
+		//create product if isEditing is false
 		try {
 			await createProduct(newProduct);
 			setNewProduct({ name: "", description: "", price: "", category: "", image: "" });
@@ -54,7 +73,7 @@ const CreateProductForm = () => {
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.8 }}
 		>
-			<h2 className='text-2xl font-semibold mb-6 text-emerald-300'>Create New Product</h2>
+			<h2 className='text-2xl font-semibold mb-6 text-emerald-300'>{isEditing?"Edit Product":"Create New Product"}</h2>
 
 			<form onSubmit={handleSubmit} className='space-y-4'>
 				<div>
@@ -142,6 +161,9 @@ const CreateProductForm = () => {
 						Upload Image
 					</label>
 					{newProduct.image && <span className='ml-3 text-sm text-gray-400'>Image uploaded </span>}
+					<div>
+						{newProduct.image&& <img src={newProduct.image} alt='Product' className='mt-2 h-20 w-20 rounded-md object-cover' />}
+					</div>
 				</div>
 
 				<button
@@ -159,7 +181,8 @@ const CreateProductForm = () => {
 					) : (
 						<>
 							<PlusCircle className='mr-2 h-5 w-5' />
-							Create Product
+							{isEditing ? "Update Product" : "Create Product"}
+							
 						</>
 					)}
 				</button>

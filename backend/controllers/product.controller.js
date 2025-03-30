@@ -95,6 +95,71 @@ export const deleteProduct = async (req, res) => {
 	}
 };
 
+
+export const updateProduct = async (req, res) => {
+	const productId = req.params.id;
+	console.log("productId", productId);
+
+	try{
+		const product = await Product.findById(productId);
+		if (!product) {
+			return res.status(404).json({ message: "Product not found" });
+		}
+		const { name, description, price, image, category } = req.body;
+		//reload the image if it is provided
+		//check for if the image is changed
+		// if the image is not provided, we don't need to upload it again
+		// if the image is provided, we need to upload it again and delete the old one
+		// if the image is not provided, we don't need to upload it again
+		
+		if (product.image !== image) {
+			let cloudinaryResponse = null;
+			
+			// upload the new image to cloudinary
+			cloudinaryResponse = await cloudinary.uploader.upload(image, { folder: "products" });
+		
+		//update the product with the new data
+		product.name = name;
+		product.description = description;
+		product.price = price;
+		product.category = category;
+		product.image = cloudinaryResponse?.secure_url ? cloudinaryResponse.secure_url : product.image;
+	}
+		else {
+			console.log("image not changed, no need to upload again");
+			product.name = name;
+			product.description = description;
+			product.price = price;
+			product.category = category;
+		}
+		await product.save();
+		res.json(product);
+
+
+	}catch(error){
+		console.log("Error in updateProduct controller", error.message);
+		res.status(500).json({ message: "Server error", error: error.message });
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const getRecommendedProducts = async (req, res) => {
 	try {
 		const products = await Product.aggregate([
