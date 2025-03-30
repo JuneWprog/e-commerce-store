@@ -3,17 +3,12 @@
 ## Payment
 
 
-
-https://github.com/user-attachments/assets/d9555035-b6e1-4c46-8c54-53c667f2aa7d
-
+https://github.com/user-attachments/assets/e60367ab-15ec-43f3-b390-4f987c81e004
 
 ## Admininstration
 
 
 https://github.com/user-attachments/assets/58c548a9-ae04-4496-a62f-ca2f6c4b2c73
-
-
-
 
 
 ## Key Features:
